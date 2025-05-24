@@ -17,7 +17,12 @@ import { cn } from "@/lib/utils";
 
 const signinFormSchema = z.object({
   email: z.string().email({ message: "Invalid email address." }),
-  password: z.string().min(1, { message: "Password is required." }), 
+  password: z.string()
+    .min(8, { message: "Password must be at least 8 characters long." })
+    .regex(/[A-Z]/, { message: "Password must include an uppercase letter." })
+    .regex(/[a-z]/, { message: "Password must include a lowercase letter." })
+    .regex(/[0-9]/, { message: "Password must include a number." })
+    .regex(/[^A-Za-z0-9]/, { message: "Password must include a special character." }),
 });
 
 type SigninFormData = z.infer<typeof signinFormSchema>;
@@ -33,7 +38,7 @@ export default function SigninForm() {
       email: "",
       password: "",
     },
-    mode: "onChange", 
+    mode: "onChange",
   });
 
   async function onSubmit(values: SigninFormData) {
@@ -42,23 +47,25 @@ export default function SigninForm() {
 
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
-    if (values.email === "user@example.com" && values.password === "password") {
+    // Since password validation is now handled by Zod,
+    // we only need to check the email for this prototype's login success.
+    if (values.email === "user@example.com") {
         toast({
         title: "Login Successful!",
         description: "Welcome back to PopX.",
         });
         form.reset();
-        router.push('/settings'); 
+        router.push('/settings');
     } else {
         toast({
             title: "Login Failed",
-            description: "Invalid email or password.",
+            description: "Invalid email or password.", // Generic message for prototype
             variant: "destructive",
         });
     }
     setIsSubmitting(false);
   }
-  
+
   const canSubmit = form.formState.isValid;
 
   return (
@@ -80,11 +87,10 @@ export default function SigninForm() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FloatingLabelInput 
-                      label="Email Address" 
-                      type="email" 
-                      placeholder="Enter email address" 
-                      {...field} 
+                    <FloatingLabelInput
+                      label="Email Address"
+                      type="email"
+                      {...field}
                     />
                     <FormMessage className="text-red-500 text-xs pt-1" />
                   </FormItem>
@@ -95,11 +101,10 @@ export default function SigninForm() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FloatingLabelInput 
-                      label="Password" 
-                      type="password" 
-                      placeholder="Enter password" 
-                      {...field} 
+                    <FloatingLabelInput
+                      label="Password"
+                      type="password"
+                      {...field}
                     />
                     <FormMessage className="text-red-500 text-xs pt-1" />
                   </FormItem>
