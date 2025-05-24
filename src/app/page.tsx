@@ -62,7 +62,6 @@ export default function SignUpPage() {
     const companyName = form.getValues("companyName");
     const currentEmail = form.getValues("email");
     
-    // Trigger validation for companyName to ensure it's not empty/invalid before AI call
     const companyNameValid = await form.trigger("companyName");
 
     if (companyName && companyNameValid && (!currentEmail || !currentEmail.includes('@'))) {
@@ -70,7 +69,7 @@ export default function SignUpPage() {
       try {
         const result = await findEmailDomain({ companyName });
         if (result && result.emailDomain) {
-          const usernamePart = currentEmail.split('@')[0]; // This will be currentEmail if no '@'
+          const usernamePart = currentEmail.split('@')[0] || form.getValues("fullName").split(" ")[0]?.toLowerCase() || "user";
           form.setValue("email", `${usernamePart}@${result.emailDomain}`, { shouldValidate: true });
           toast({
             title: "AI Suggestion",
@@ -79,12 +78,6 @@ export default function SignUpPage() {
         }
       } catch (error) {
         console.error("AI email domain finder error:", error);
-        // Optional: toast error for AI failure, but might be too noisy.
-        // toast({
-        //   title: "AI Error",
-        //   description: "Could not suggest an email domain.",
-        //   variant: "destructive",
-        // });
       } finally {
         setIsAiLoading(false);
       }
@@ -95,10 +88,8 @@ export default function SignUpPage() {
     setIsSubmitting(true);
     console.log("Form submitted:", values);
 
-    // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
-    // Simulate sending notification
     console.log("Notification: New account created for", values.email);
 
     toast({
@@ -108,6 +99,8 @@ export default function SignUpPage() {
     form.reset();
     setIsSubmitting(false);
   }
+
+  const labelClassName = "absolute left-3 origin-[0%_0%] text-muted-foreground pointer-events-none transition-all duration-300 transform-gpu peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-placeholder-shown:text-base peer-focus:top-3 peer-focus:-translate-y-1/2 peer-focus:scale-75 peer-focus:text-primary peer-focus:bg-card peer-focus:px-1 peer-[:not(:placeholder-shown)]:top-3 peer-[:not(:placeholder-shown)]:-translate-y-1/2 peer-[:not(:placeholder-shown)]:scale-75 peer-[:not(:placeholder-shown)]:text-primary peer-[:not(:placeholder-shown)]:bg-card peer-[:not(:placeholder-shown)]:px-1";
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-center bg-background p-4 sm:p-6 lg:p-8">
@@ -125,13 +118,13 @@ export default function SignUpPage() {
                 control={form.control}
                 name="fullName"
                 render={({ field }) => (
-                  <FormItem className="relative pt-1.5">
-                    <FormLabel className="absolute left-3 -top-2 bg-card px-1 text-xs text-muted-foreground">
+                  <FormItem className="relative">
+                    <FormControl>
+                      <Input placeholder=" " {...field} className="peer pt-5" />
+                    </FormControl>
+                    <FormLabel className={labelClassName}>
                       Full Name <span className="text-destructive">*</span>
                     </FormLabel>
-                    <FormControl>
-                      <Input placeholder="John Doe" {...field} />
-                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -140,11 +133,11 @@ export default function SignUpPage() {
                 control={form.control}
                 name="phoneNumber"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Phone Number <span className="text-destructive">*</span></FormLabel>
+                  <FormItem className="relative">
                     <FormControl>
-                      <Input placeholder="Marry Doe" type="tel" {...field} />
+                      <Input type="tel" placeholder=" " {...field} className="peer pt-5" />
                     </FormControl>
+                    <FormLabel className={labelClassName}>Phone Number <span className="text-destructive">*</span></FormLabel>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -153,11 +146,11 @@ export default function SignUpPage() {
                 control={form.control}
                 name="email"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email Address <span className="text-destructive">*</span></FormLabel>
+                  <FormItem className="relative">
                     <FormControl>
-                      <Input placeholder="Marry Doe" type="email" {...field} />
+                      <Input type="email" placeholder=" " {...field} className="peer pt-5" />
                     </FormControl>
+                    <FormLabel className={labelClassName}>Email Address <span className="text-destructive">*</span></FormLabel>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -166,11 +159,11 @@ export default function SignUpPage() {
                 control={form.control}
                 name="password"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password <span className="text-destructive">*</span></FormLabel>
+                  <FormItem className="relative">
                     <FormControl>
-                      <Input placeholder="Marry Doe" type="password" {...field} />
+                      <Input type="password" placeholder=" " {...field} className="peer pt-5" />
                     </FormControl>
+                    <FormLabel className={labelClassName}>Password <span className="text-destructive">*</span></FormLabel>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -179,14 +172,14 @@ export default function SignUpPage() {
                 control={form.control}
                 name="companyName"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="flex items-center">
-                      Company Name <span className="text-destructive">*</span>
-                      {isAiLoading && <Loader2 className="ml-2 h-4 w-4 animate-spin text-primary" />}
-                    </FormLabel>
+                  <FormItem className="relative">
                     <FormControl>
-                      <Input placeholder="Marry Doe" {...field} onBlur={handleCompanyBlur} />
+                      <Input placeholder=" " {...field} onBlur={handleCompanyBlur} className="peer pt-5" />
                     </FormControl>
+                    <FormLabel className={labelClassName}>
+                      Company Name <span className="text-destructive">*</span>
+                      {isAiLoading && <Loader2 className="ml-1 inline h-4 w-4 animate-spin" />}
+                    </FormLabel>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -195,7 +188,7 @@ export default function SignUpPage() {
                 control={form.control}
                 name="isAgency"
                 render={({ field }) => (
-                  <FormItem className="space-y-3">
+                  <FormItem className="space-y-3 pt-2"> {/* Added pt-2 for better spacing with floating labels above */}
                     <FormLabel>Are you an Agency? <span className="text-destructive">*</span></FormLabel>
                     <FormControl>
                       <RadioGroup
