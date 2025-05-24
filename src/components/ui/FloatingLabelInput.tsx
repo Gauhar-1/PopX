@@ -70,13 +70,11 @@ const FloatingLabelInput = React.forwardRef<
           htmlFor={internalId}
           className={cn(
             "absolute font-inter transition-colors duration-200 ease-out origin-[0] pointer-events-none",
-            // Always in the "floated" position & size:
-            "top-[-0.45rem]", // Positioned to sit on/straddle the input's top border
-            "left-2",         // Adjusted for px-1, aligns with input text start
-            "text-[13px]",    // As per PRD
-            "px-1",           // Padding for the background cut-out
-            "bg-popx-white",  // Background for cut-out, matches card
-
+            "top-[-0.7rem]", 
+            "left-2",       
+            "text-[13px]",   
+            "px-2",          
+            "bg-popx-white",  
             // Conditional color:
             (isFocused || hasValue) ? "text-popx-label" : "text-popx-paragraph",
             

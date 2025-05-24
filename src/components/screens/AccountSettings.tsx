@@ -88,9 +88,7 @@ export default function AccountSettings() {
           {/* Section Divider */}
           <hr className="border-t border-dashed border-popx-gray my-6" />
           
-           <div className="text-center text-popx-paragraph py-4">
-            More settings content would go here.
-          </div>
+
         </div>
       </main>
     </div>
