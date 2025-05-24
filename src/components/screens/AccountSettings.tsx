@@ -35,13 +35,12 @@ export default function AccountSettings() {
   const user = {
     name: userName,
     email: userEmail,
-    avatarUrl: "https://placehold.co/64x64.png", // Placeholder image
+    avatarUrl: "https://placehold.co/64x64.png", 
     bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
   };
 
   return (
-    <div className="flex flex-col min-h-full bg-popx-bg"> {/* Changed min-h-screen to min-h-full */}
-      {/* Header Bar */}
+    <div className="flex flex-col min-h-full bg-popx-bg"> 
       <header className="bg-popx-white h-[56px] shadow-sm flex items-center px-4 sm:px-6 sticky top-0 z-10">
         <h2 className="font-inter font-medium text-[16px] text-popx-header-text">
           Account Settings
@@ -49,7 +48,7 @@ export default function AccountSettings() {
       </header>
 
       {/* Profile Section */}
-      <main className="p-4 sm:p-6 flex-grow"> {/* Added flex-grow */}
+      <main className="p-4 sm:p-6 flex-grow"> 
         <div className="max-w-3xl mx-auto"> 
           <div className="flex flex-col md:flex-row items-center md:items-start">
             {/* Avatar Section */}
@@ -60,7 +59,7 @@ export default function AccountSettings() {
                 width={64}
                 height={64}
                 className="rounded-full"
-                data-ai-hint="profile person"
+                data-ai-hint="profile man"
               />
               <button
                 aria-label="Change profile picture"
