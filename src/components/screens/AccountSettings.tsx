@@ -1,3 +1,4 @@
+
 "use client";
 
 import Image from "next/image";
@@ -55,7 +56,7 @@ export default function AccountSettings() {
           </div>
 
           {/* Bio Text */}
-          <p className="font-inter text-[14px] text-popx-header-text mt-4 text-left">
+          <p className="font-inter text-[14px] text-popx-header-text mt-4 text-center md:text-left">
             {user.bio}
           </p>
 

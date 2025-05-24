@@ -49,7 +49,7 @@ export default function SigninForm() {
 
     // Since password validation is now handled by Zod,
     // we only need to check the email for this prototype's login success.
-    if (values.email === "user@example.com") {
+    if (values.email) {
         toast({
         title: "Login Successful!",
         description: "Welcome back to PopX.",
