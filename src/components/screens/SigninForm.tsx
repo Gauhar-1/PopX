@@ -38,28 +38,32 @@ export default function SigninForm() {
       email: "",
       password: "",
     },
-    mode: "onChange",
+    mode: "onChange", // Validate on change for better UX
   });
 
   async function onSubmit(values: SigninFormData) {
     setIsSubmitting(true);
     console.log("Signin form submitted:", values);
 
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    await new Promise((resolve) => setTimeout(resolve, 1500)); // Simulate API call
 
-    // Since password validation is now handled by Zod,
-    // we only need to check the email for this prototype's login success.
-    if (values.email) {
+    // For prototype, allow any valid email that passes zod validation for success display
+    // but you might want to check for a specific email like "user@example.com"
+    if (values.email) { 
         toast({
         title: "Login Successful!",
         description: "Welcome back to PopX.",
         });
-        form.reset();
-        router.push('/settings');
+        
+        const queryParams = new URLSearchParams({ email: values.email }).toString();
+        form.reset(); // Reset after getting values
+        router.push(`/settings?${queryParams}`);
     } else {
+        // This case should ideally not be hit if Zod validation is working correctly
+        // and button is disabled until form is valid.
         toast({
             title: "Login Failed",
-            description: "Invalid email or password.", // Generic message for prototype
+            description: "Invalid email or password.", 
             variant: "destructive",
         });
     }
@@ -69,7 +73,7 @@ export default function SigninForm() {
   const canSubmit = form.formState.isValid;
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-popx-bg p-4">
+    <div className="flex flex-col items-center justify-center min-h-full bg-popx-bg p-4"> {/* Changed min-h-screen to min-h-full */}
       <Card className="w-full max-w-[380px] bg-popx-white rounded-lg shadow-xl p-5 sm:p-7">
         <CardHeader className="p-0 mb-6 text-left">
           <CardTitle className="font-inter font-semibold text-[24px] text-popx-heading mb-1">

@@ -1,3 +1,4 @@
+
 "use client";
 
 import * as React from "react";
@@ -17,7 +18,7 @@ import { useRouter } from "next/navigation";
 
 
 const signupFormSchema = z.object({
-  fullName: z.string().min(2, { message: "Full name must be at least 2 characters." }).default("Marry Doe"),
+  fullName: z.string().min(2, { message: "Full name must be at least 2 characters." }),
   phoneNumber: z.string().regex(/^\+?[1-9]\d{1,14}$/, { message: "Invalid phone number." }),
   email: z.string().email({ message: "Invalid email address." }),
   password: z.string().min(8, { message: "Password must be at least 8 characters." }),
@@ -55,14 +56,20 @@ export default function SignupForm() {
       title: "Account Created!",
       description: "Your PopX account has been successfully created.",
     });
-    form.reset();
+    
+    // Pass name and email to settings page
+    const queryParams = new URLSearchParams({
+      name: values.fullName,
+      email: values.email,
+    }).toString();
+
+    form.reset(); // Reset after getting values for queryParams
     setIsSubmitting(false);
-    // Redirect to account settings page after successful signup
-    router.push('/settings');
+    router.push(`/settings?${queryParams}`);
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-popx-bg p-4">
+    <div className="flex flex-col items-center justify-center min-h-full bg-popx-bg p-4"> {/* Changed min-h-screen to min-h-full */}
       <Card className="w-full max-w-[380px] bg-popx-white rounded-lg shadow-xl p-5 sm:p-7">
         <CardHeader className="p-0">
           <CardTitle className="font-inter font-semibold text-[24px] text-popx-heading mb-6 text-left">

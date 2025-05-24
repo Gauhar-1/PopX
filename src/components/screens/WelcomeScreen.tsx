@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from 'next/link';
@@ -5,7 +6,7 @@ import { Button } from '@/components/ui/button';
 
 export default function WelcomeScreen() {
   return (
-    <div className="flex flex-col justify-end min-h-screen bg-popx-bg p-6 pb-10 sm:p-8 sm:pb-12">
+    <div className="flex flex-col justify-end min-h-full bg-popx-bg p-6 pb-10 sm:p-8 sm:pb-12"> {/* Changed min-h-screen to min-h-full */}
       <div className="w-full max-w-md mx-auto">
         <h1 className="font-inter font-semibold text-[24px] leading-tight text-popx-heading">
           Welcome to PopX
