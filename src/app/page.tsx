@@ -1,3 +1,4 @@
+
 "use client";
 
 import * as React from "react";
@@ -124,10 +125,12 @@ export default function SignUpPage() {
                 control={form.control}
                 name="fullName"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Full Name <span className="text-destructive">*</span></FormLabel>
+                  <FormItem className="relative pt-1.5">
+                    <FormLabel className="absolute left-3 -top-2 bg-card px-1 text-xs text-muted-foreground">
+                      Full Name <span className="text-destructive">*</span>
+                    </FormLabel>
                     <FormControl>
-                      <Input placeholder="Marry Doe" {...field} />
+                      <Input placeholder="John Doe" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
