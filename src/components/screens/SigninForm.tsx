@@ -1,3 +1,4 @@
+
 "use client";
 
 import * as React from "react";
@@ -12,10 +13,11 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import { FloatingLabelInput } from "@/components/ui/FloatingLabelInput";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 const signinFormSchema = z.object({
   email: z.string().email({ message: "Invalid email address." }),
-  password: z.string().min(1, { message: "Password is required." }), // Min 1 for simplicity, PRD implies just filled
+  password: z.string().min(1, { message: "Password is required." }), 
 });
 
 type SigninFormData = z.infer<typeof signinFormSchema>;
@@ -31,24 +33,22 @@ export default function SigninForm() {
       email: "",
       password: "",
     },
-    mode: "onChange", // To update isValid state for button enabling
+    mode: "onChange", 
   });
 
   async function onSubmit(values: SigninFormData) {
     setIsSubmitting(true);
     console.log("Signin form submitted:", values);
 
-    // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
-    // Simulate successful login for now
     if (values.email === "user@example.com" && values.password === "password") {
         toast({
         title: "Login Successful!",
         description: "Welcome back to PopX.",
         });
         form.reset();
-        router.push('/settings'); // Redirect to account settings page
+        router.push('/settings'); 
     } else {
         toast({
             title: "Login Failed",
@@ -83,7 +83,7 @@ export default function SigninForm() {
                     <FloatingLabelInput 
                       label="Email Address" 
                       type="email" 
-                      placeholder="Enter email address" // Will be visually replaced by label
+                      placeholder="Enter email address" 
                       {...field} 
                     />
                     <FormMessage className="text-red-500 text-xs pt-1" />
@@ -98,7 +98,7 @@ export default function SigninForm() {
                     <FloatingLabelInput 
                       label="Password" 
                       type="password" 
-                      placeholder="Enter password" // Will be visually replaced by label
+                      placeholder="Enter password" 
                       {...field} 
                     />
                     <FormMessage className="text-red-500 text-xs pt-1" />
@@ -107,12 +107,11 @@ export default function SigninForm() {
               />
               <Button
                 type="submit"
-                className="w-full h-[44px] rounded-md font-inter font-medium text-[16px] mt-2 shadow-sm"
+                className={cn(
+                  "w-full h-[44px] rounded-md font-inter font-medium text-[16px] mt-2 shadow-sm",
+                  canSubmit ? "bg-popx-primary text-popx-white hover:bg-popx-primary-hover" : "bg-popx-gray-light-disabled text-popx-bg cursor-not-allowed"
+                )}
                 disabled={isSubmitting || !canSubmit}
-                style={{
-                  backgroundColor: canSubmit ? '#7C3AED' : '#D1D5DB',
-                  color: canSubmit ? '#FFFFFF' : '#F9FAFB',
-                }}
               >
                 {isSubmitting ? "Logging In..." : "Login"}
               </Button>

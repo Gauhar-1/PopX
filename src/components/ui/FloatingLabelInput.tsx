@@ -1,3 +1,4 @@
+
 "use client";
 
 import * as React from "react";
@@ -21,7 +22,7 @@ const FloatingLabelInput = React.forwardRef<
     ref
   ) => {
     const internalId = id || name;
-    const [hasValue, setHasValue] = React.useState(!!value); // For initial value
+    const [hasValue, setHasValue] = React.useState(!!value);
     const [isFocused, setIsFocused] = React.useState(false);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,9 +34,7 @@ const FloatingLabelInput = React.forwardRef<
 
     const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
       setIsFocused(true);
-      if (onBlur) { // Prop name is onBlur, but this is focus
-        // Call original onFocus if provided
-      }
+      // Original onFocus logic can be called here if needed from props.onFocus
     };
 
     const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
@@ -45,18 +44,9 @@ const FloatingLabelInput = React.forwardRef<
       }
     };
     
-    // Update hasValue if the external value prop changes
     React.useEffect(() => {
       setHasValue(!!value);
     }, [value]);
-
-
-    // PRD: "Label: Inter 400 13 px, color #8B5CF6; on focus or non-empty move to 12 px above field, scale 0.75."
-    // This means the label starts inside. Input height 44px.
-    // The label should float above the input border. The input needs padding-top to not overlap with the text.
-    // A common way is `pt-[calc(1em+0.5rem)]` or similar for the input.
-    // And the label is positioned absolutely.
-    // For "12px above field" and "scale 0.75", we can use transform.
 
     return (
       <div className={cn("relative", wrapperClassName)}>
@@ -69,7 +59,7 @@ const FloatingLabelInput = React.forwardRef<
           onChange={handleInputChange}
           onFocus={handleFocus}
           onBlur={handleBlur}
-          placeholder={placeholder || " "} // Crucial: must have a placeholder (even a space) for :placeholder-shown to work
+          placeholder={placeholder || " "} 
           className={cn(
             "peer h-[44px] w-full rounded-md border-1.5 border-popx-gray bg-popx-white px-3 pt-4 pb-1 text-popx-heading placeholder-transparent focus:outline-none focus:border-popx-primary focus:ring-1 focus:ring-popx-primary",
             className
@@ -79,12 +69,17 @@ const FloatingLabelInput = React.forwardRef<
         <Label
           htmlFor={internalId}
           className={cn(
-            "absolute left-3 font-inter transition-all duration-200 ease-out origin-[0] pointer-events-none",
-            "text-popx-paragraph text-base", // Initial state (like placeholder)
-            (isFocused || hasValue)
-              ? "top-[0.375rem] transform scale-[0.825] -translate-y-0 text-popx-label text-[13px]" // Floated state (13px font from PRD, scale to make it effectively smaller)
-              : "top-1/2 -translate-y-1/2", // Centered state
-            isFocused && "text-popx-label",
+            "absolute font-inter transition-colors duration-200 ease-out origin-[0] pointer-events-none",
+            // Always in the "floated" position & size:
+            "top-[-0.45rem]", // Positioned to sit on/straddle the input's top border
+            "left-2",         // Adjusted for px-1, aligns with input text start
+            "text-[13px]",    // As per PRD
+            "px-1",           // Padding for the background cut-out
+            "bg-popx-white",  // Background for cut-out, matches card
+
+            // Conditional color:
+            (isFocused || hasValue) ? "text-popx-label" : "text-popx-paragraph",
+            
             labelClassName
           )}
         >
