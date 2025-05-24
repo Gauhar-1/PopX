@@ -1,18 +1,17 @@
 import type {Metadata} from 'next';
-import {Geist} from 'next/font/google'; // Using Geist Sans as per original scaffold
+import { Inter } from 'next/font/google';
 import './globals.css';
-import { Toaster } from "@/components/ui/toaster"; // Added Toaster
+import { Toaster } from "@/components/ui/toaster";
 
-const geistSans = Geist({ // Changed from Geist_Mono and default Geist to just Geist Sans
-  variable: '--font-geist-sans',
+const inter = Inter({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'] // Added typical weights
+  variable: '--font-inter',
+  weight: ['400', '500', '600'] // Weights specified in PRD
 });
 
-
 export const metadata: Metadata = {
-  title: 'FormFlow', // Updated app name
-  description: 'Modern sign-up form with AI-powered features.', // Updated description
+  title: 'PopX',
+  description: 'Welcome to PopX.',
 };
 
 export default function RootLayout({
@@ -21,10 +20,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} font-sans antialiased`}> {/* Use font-sans which maps to --font-geist-sans */}
+    <html lang="en" className={`${inter.variable}`}>
+      <body className={`font-inter antialiased bg-popx-bg`}>
         {children}
-        <Toaster /> {/* Added Toaster component */}
+        <Toaster />
       </body>
     </html>
   );
