@@ -100,7 +100,7 @@ export default function SignUpPage() {
     setIsSubmitting(false);
   }
 
-  const labelClassName = "absolute left-3 origin-[0%_0%] text-muted-foreground pointer-events-none transition-all duration-300 transform-gpu peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-placeholder-shown:text-base peer-focus:top-3 peer-focus:-translate-y-1/2 peer-focus:scale-75 peer-focus:text-primary peer-focus:bg-card peer-focus:px-1 peer-[:not(:placeholder-shown)]:top-3 peer-[:not(:placeholder-shown)]:-translate-y-1/2 peer-[:not(:placeholder-shown)]:scale-75 peer-[:not(:placeholder-shown)]:text-primary peer-[:not(:placeholder-shown)]:bg-card peer-[:not(:placeholder-shown)]:px-1";
+  const labelClassName = "absolute left-3 top-3 -translate-y-1/2 scale-75 origin-[0%_0%] bg-card px-1 text-muted-foreground pointer-events-none transition-colors duration-200 transform-gpu peer-focus:text-primary peer-[:not(:placeholder-shown)]:text-primary";
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-center bg-background p-4 sm:p-6 lg:p-8">
