@@ -35,7 +35,7 @@ export default function AccountSettings() {
   const user = {
     name: userName,
     email: userEmail,
-    avatarUrl: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png", 
+    avatarUrl: "/profile.png", 
     bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
   };
 
